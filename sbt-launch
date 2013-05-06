@@ -1,0 +1,13 @@
+#!/bin/sh
+
+mkdir -p ~/.sbt
+for f in /private/play-war/.sbt/*.sbt
+do
+  ln -s $f ~/.sbt/
+done
+
+ls -al ~/.sbt/
+
+SCRIPT_PATH="$(dirname $BASH_SOURCE)"
+
+exec /bin/sh $SCRIPT_PATH/sbt -v -sbt-dir $HOME/.sbt -J-Xss1M -J-XX:MaxPermSize=512m -Dsbt.override.build.repos=true -Dsbt.repository.config=/private/play-war/sbt/sbt-repositories.properties "$@"
